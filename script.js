@@ -13,6 +13,7 @@ const observer = new IntersectionObserver(
 document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
 
 const achievementCards = Array.from(document.querySelectorAll(".achievement-video-card"));
+const achievementMediaQuery = window.matchMedia("(max-width: 720px), (pointer: coarse)");
 
 const activateAchievementCard = (card) => {
   card.classList.add("is-playing");
@@ -39,6 +40,10 @@ const activateAchievementCard = (card) => {
 };
 
 const deactivateAchievementCard = (card) => {
+  if (achievementMediaQuery.matches) {
+    return;
+  }
+
   const iframe = card.querySelector("iframe[data-src]");
   if (iframe) {
     iframe.setAttribute("src", "");
@@ -61,6 +66,31 @@ achievementCards.forEach((card) => {
   card.addEventListener("focusin", () => activateAchievementCard(card));
   card.addEventListener("focusout", () => deactivateAchievementCard(card));
 });
+
+const primeAchievementVideosForMobile = () => {
+  if (!achievementMediaQuery.matches) {
+    return;
+  }
+
+  achievementCards.forEach((card) => {
+    const video = card.querySelector("video[data-video-src]");
+    if (!video) return;
+
+    if (!video.getAttribute("src")) {
+      video.setAttribute("src", video.dataset.videoSrc);
+    }
+
+    card.classList.add("is-playing");
+
+    const playPromise = video.play();
+    if (playPromise && typeof playPromise.catch === "function") {
+      playPromise.catch(() => {});
+    }
+  });
+};
+
+primeAchievementVideosForMobile();
+window.addEventListener("resize", primeAchievementVideosForMobile);
 
 const dockItems = Array.from(document.querySelectorAll("[data-dock-item]"));
 let activeDockIndex = -1;
