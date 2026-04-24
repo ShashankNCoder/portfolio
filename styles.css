@@ -1741,6 +1741,53 @@ a {
     white-space: nowrap;
   }
 
+  .tools__dock-shell {
+    padding: 14px 12px 12px;
+    border-radius: 22px;
+  }
+
+  .tools__dock {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: end;
+    gap: 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 8px 6px 4px;
+    scroll-snap-type: x proximity;
+  }
+
+  .dock-item {
+    min-width: 64px;
+    flex: 0 0 auto;
+    gap: 6px;
+    transform: none !important;
+    scroll-snap-align: start;
+  }
+
+  .dock-item.is-neighbor,
+  .dock-item.is-active {
+    transform: none !important;
+  }
+
+  .dock-item__icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+  }
+
+  .dock-item__logo {
+    width: 36px;
+    height: 36px;
+  }
+
+  .dock-item__label {
+    font-size: 0.68rem;
+    text-align: center;
+    white-space: nowrap;
+  }
+
   .about,
   .work-card,
   .skill-group,
